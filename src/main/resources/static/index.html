@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+body
+{
+  background-color: #ccc;
+}
+.center-div
+{
+  margin: 2em auto;
+  width: 75%;
+  max-width: 750px;
+  max-height: 75%;
+  text-align: center;
+  padding: 2em 0 2em;
+  background-color: #fcfcfc;
+  border-radius: 3px;
+}
+.btn{
+    cursor: pointer;
+    outline: 0;
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 6px 12px;
+    font-size: 1rem;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    color: #0d6efd;
+    border-color: #0d6efd;
+    text-decoration: none;
+}
+.btn:hover {
+        color: #fff;
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+input{
+margin: 1em;
+}
+
+
+    </style>
+    <script>
+  window.addEventListener("DOMContentLoaded", function() {
+  document.getElementById('sortShirtsForm').addEventListener("submit", function(e) {
+    e.preventDefault();
+    var stockPoints = document.getElementsByName("stockPoints")[0].value;
+    var salesPoints = document.getElementsByName("salesPoints")[0].value;
+    window.location.href = `http://localhost:8080/api/shirts/sorted/${salesPoints}/${stockPoints}`
+  })
+  document.getElementById('addShirt').addEventListener("submit", function(e) {
+    e.preventDefault();
+    var shirtName = document.getElementsByName('shirtName')[0].value;
+    fetch('http://localhost:8080/api/shirts', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: shirtName
+       })
+    window.location.href = `http://localhost:8080`
+
+    })
+      document.getElementById('deleteShirt').addEventListener("submit", function(e) {
+        e.preventDefault();
+        var shirtId = document.getElementById('shirtId').value
+          fetch('/api/shirts/delete/' + shirtId,  {
+            method: 'DELETE'
+          })
+        window.location.href = `http://localhost:8080`
+      })
+  });
+
+    </script>
+</head>
+<body>
+
+
+<div class="center-div">
+    <h1>INDITEX SHIRT COLLECTION</h1>
+    <br><br>
+    <a class="btn" href="api/shirts">ALL SHIRTS</a>
+    <br><br>
+    <hr>
+    <br><br>
+    <form id="sortShirtsForm">
+        <label for="salesPoints">Sales points:</label><br>
+        <input type="number" id="salesPoints" name="salesPoints" value="1" placeholder="1"><br><br>
+        <label for="stockPoints">Stock points:</label><br>
+        <input type="number" id="stockPoints" name="stockPoints" value="1" placeholder="1"><br>
+        <input type="submit" class="btn" value="GET SHIRTS SORTED">
+    </form>
+    <br><br>
+    <hr>
+    <br><br>
+    <form id="addShirt">
+        <label for="shirtName">Shirt name:</label><br>
+        <input type="text" id="shirtName" name="shirtName"><br><br>
+        <input type="submit" class="btn" value="ADD SHIRT">
+    </form>
+    <br><br>
+    <hr>
+    <br><br>
+    <form id="deleteShirt">
+        <label for="shirtId">Shirt Id:</label><br>
+        <input type="text" id="shirtId" name="shirtId"><br><br>
+        <input type="submit" class="btn" value="DELETE SHIRT">
+    </form>
+    <br><br>
+</div>
+
+
+</body>
+</html>
